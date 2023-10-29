@@ -7,4 +7,4 @@ place your fragments in the html_fragments folder, place your html pages in html
 python compiler.py html_fragments html_pages test_out
 ```
 
-At the moment it removes all the white space, since you won't be needing that in production.
+At the moment it removes all the white space, since you won't be needing it in production.
