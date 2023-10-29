@@ -2,13 +2,13 @@ import sys, os
 from dataclasses import dataclass 
 
 @dataclass
-class Config:
+class ArgsConfig:
     folder_to_compile: str
     template_folder: str
     output_folder: str
     string_folder : str
 
-def parse_args() -> Config:
+def parse_args() -> ArgsConfig:
     if len(sys.argv) != 5:
         print(f"Usage: {sys.argv[0]} template_folder folder_to_compile output_folder string_folder")
         exit(0)
@@ -34,4 +34,4 @@ def parse_args() -> Config:
         print(f"Template folder does not exist; {string_folder}")
         exit(0)
 
-    return Config(folder_to_compile, template_folder, output_folder, string_folder)
+    return ArgsConfig(folder_to_compile, template_folder, output_folder, string_folder)

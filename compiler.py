@@ -1,23 +1,10 @@
-import sys, os, platform
-from utils.cli import parse_args, Config
+import os
+from utils.config import DELIM
+from utils.cli import parse_args, ArgsConfig
 from utils.translation import Translation
-import json
+from utils.parser import read_file_and_strip
 
-trans = Translation()
-
-if platform.system() != 'Windows':
-    DELIM = '/'
-else:
-    DELIM = '\\'
-
-def read_file_and_strip(file_to_read):
-    new_contents = ""
-    with open(file_to_read, 'r') as file:
-        for line in file.readlines():
-            new_contents += line.strip()
-    return new_contents
-
-def expand_html(html_file: str, config: Config):
+def expand_html(html_file: str, trans: Translation, config: ArgsConfig):
     new_contents = ""
     with open(f"{config.folder_to_compile}{DELIM}{html_file}", 'r') as file:
         for line in file.readlines():
@@ -32,7 +19,7 @@ def expand_html(html_file: str, config: Config):
                 if command[-4:] == "html":
                     to_replace = read_file_and_strip(f"{config.template_folder}{DELIM}{command}")
                 else:
-                    to_replace = trans[f"{config.string_folder}{DELIM}{command}"]
+                    to_replace = trans[command]
                 line = line.replace(line[npos:closingpos+2], to_replace)
                 new_contents += line
                 if line.find('{{') == -1:
@@ -40,14 +27,16 @@ def expand_html(html_file: str, config: Config):
                     
     return new_contents
 
-def expand_folder(config: Config):
+def expand_folder(trans: Translation, config: ArgsConfig):
     for file_name in os.listdir(config.folder_to_compile):
         if file_name[-4:] == "html":
-            new_contents = expand_html(file_name, config)
+            new_contents = expand_html(file_name, trans, config)
             with open(f"{config.output_folder}{DELIM}{file_name}", 'w') as file:
                 file.write(new_contents)
         
 
 if __name__ == "__main__":
     config = parse_args()
-    expand_folder(config)
+    
+    trans = Translation(config)
+    expand_folder(trans, config)
