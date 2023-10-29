@@ -1,31 +1,14 @@
 import sys, os, platform
+from utils.cli import parse_args, Config
+from utils.translation import Translation
+import json
+
+trans = Translation()
 
 if platform.system() != 'Windows':
     DELIM = '/'
 else:
     DELIM = '\\'
-
-def parse_args():
-    if len(sys.argv) != 4:
-        print(f"Usage: {sys.argv[0]} template_folder folder_to_compile output_folder")
-        exit(0)
-
-    template_folder = sys.argv[1]
-    folder_to_compile = sys.argv[2]
-    output_folder = sys.argv[3]
-
-    if not os.path.exists(template_folder):
-        print(f"Template folder does not exist; {template_folder}")
-        exit(0)
-
-    if not os.path.exists(folder_to_compile):
-        print(f"Template folder does not exist; {folder_to_compile}")
-        exit(0)
-
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-
-    return folder_to_compile, template_folder, output_folder
 
 def read_file_and_strip(file_to_read):
     new_contents = ""
@@ -34,9 +17,9 @@ def read_file_and_strip(file_to_read):
             new_contents += line.strip()
     return new_contents
 
-def expand(html_file, folder_to_compile, path_to_template_folder, output_folder):
+def expand_html(html_file: str, config: Config):
     new_contents = ""
-    with open(f"{folder_to_compile}{DELIM}{html_file}", 'r') as file:
+    with open(f"{config.folder_to_compile}{DELIM}{html_file}", 'r') as file:
         for line in file.readlines():
             while True:
                 line = line.strip()
@@ -45,22 +28,26 @@ def expand(html_file, folder_to_compile, path_to_template_folder, output_folder)
                     new_contents += line.strip()
                     break
                 closingpos = line.find('}}')
-                file_to_insert = line[npos+2:closingpos].strip()
-                print(f"{path_to_template_folder}{DELIM}{file_to_insert}")
-                to_replace = read_file_and_strip(f"{path_to_template_folder}{DELIM}{file_to_insert}")
+                command = line[npos+2:closingpos].strip()
+                if command[-4:] == "html":
+                    to_replace = read_file_and_strip(f"{config.template_folder}{DELIM}{command}")
+                else:
+                    to_replace = trans[f"{config.string_folder}{DELIM}{command}"]
                 line = line.replace(line[npos:closingpos+2], to_replace)
                 new_contents += line
-    
+                if line.find('{{') == -1:
+                    break
+                    
     return new_contents
 
-
-def expand_folder(folder_to_compile, template_folder, output_folder):
-    for file_name in os.listdir(folder_to_compile):
+def expand_folder(config: Config):
+    for file_name in os.listdir(config.folder_to_compile):
         if file_name[-4:] == "html":
-            new_contents = expand(file_name, folder_to_compile, template_folder, output_folder)
-            with open(f"{output_folder}{DELIM}{file_name}", 'w') as file:
+            new_contents = expand_html(file_name, config)
+            with open(f"{config.output_folder}{DELIM}{file_name}", 'w') as file:
                 file.write(new_contents)
+        
 
 if __name__ == "__main__":
-    folder_to_compile, template_folder, output_folder = parse_args()
-    expand_folder(folder_to_compile, template_folder, output_folder)
+    config = parse_args()
+    expand_folder(config)
