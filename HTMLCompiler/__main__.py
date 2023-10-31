@@ -4,7 +4,7 @@ import argparse
 from utils.cli import ArgsConfig
 from utils.translation import Translation
 from utils.compile import expand_folder
-from utils.generate import generate_project
+from HTMLCompiler.utils.project import make_project
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -35,12 +35,13 @@ if __name__ == "__main__":
         case 'compile':
             if args.toml != None:
                 raise NotImplementedError
-            config = ArgsConfig(args.folder_to_compile,
-                                args.template_folder, args.output_folder, args.string_folder)
+            else:
+                config = ArgsConfig(args.folder_to_compile,
+                                    args.template_folder, args.output_folder, args.string_folder)
             trans = Translation(config)
             expand_folder(trans, config)
         case 'generate':
-            generate_project(args.generate)
+            make_project(args.generate)
             #generate_project(args.generate)
         case _:
             parser.print_help()

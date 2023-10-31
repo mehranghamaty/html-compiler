@@ -7,8 +7,14 @@ place your fragments in the html_fragments folder, place your html pages in html
 pip install .
 ```
 
+Then you can either generate a new project
 ```
-python -m HTMLCompiler html_fragments html_pages test_out strings
+python -m HTMLCompiler generate .
+```
+
+Or specify one
+```
+python -m HTMLCompiler compile -t definition.toml
 ```
 
 Here we can have the following fragments, pages and strings;

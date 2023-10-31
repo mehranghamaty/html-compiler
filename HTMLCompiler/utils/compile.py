@@ -1,3 +1,4 @@
+import os
 
 from utils.cli import ArgsConfig
 from utils.translation import Translation
@@ -33,4 +34,3 @@ def expand_folder(trans: Translation, config: ArgsConfig):
             new_contents = expand_html(file_name, trans, config)
             with open(f"{config.output_folder}{DELIM}{file_name}", 'w') as file:
                 file.write(new_contents)
-        

@@ -1,9 +1,7 @@
-import os
-import logging
-
+import os, logging
 from utils.config import DELIM
 
-def generate_project(folder_location: str):
+def make_project(folder_location: str):
     print(f"Hello generating into {folder_location}")
     if os.path.exists(folder_location):
         logging.exception(f"Directory already exists: {folder_location}")
@@ -18,7 +16,8 @@ def generate_project(folder_location: str):
 folder_to_compile = {folder_to_compile}
 template_folder = {template_folder}
 output_folder = {output_folder}
-string_folder = {string_folder}"""
+string_folder = {string_folder}
+    """
     
     os.makedirs(folder_location)
     os.makedirs(f"{folder_location}{DELIM}{folder_to_compile}")
