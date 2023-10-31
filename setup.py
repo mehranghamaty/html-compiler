@@ -21,6 +21,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     python_requires='>3.10',
+    test_suite="tests",
     install_requires=[],
     keywords=['pypi', 'cicd', 'python'],
     classifiers=[
