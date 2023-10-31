@@ -1,5 +1,7 @@
 import sys, os
 from dataclasses import dataclass 
+#import argparse
+
 
 @dataclass
 class ArgsConfig:
@@ -8,7 +10,19 @@ class ArgsConfig:
     output_folder: str
     string_folder : str
 
+"""
 def parse_args() -> ArgsConfig:
+    parser = argparse.ArgumentParser(
+        prof="HTMLCompiler",
+        description='Enables fast development of plain html clients')
+    parser.add_argument('folder_to_compile', '-ftc', '--folder-to-folder', type=str, default="html_pages")
+    parser.add_argument('template_folder', '-tf', '--template-folder', type=str, default="html_fragments")
+    parser.add_argument('output_folder', '-of', '--output-folder', type=str, default="html_output")
+    parser.add_argument('string-folder', '-sf', '--string-folder', type=str, default="strings")
+    parser.add_argument('gen', '--gen',)
+"""
+
+def _parse_args() -> ArgsConfig:
     if len(sys.argv) != 5:
         print(f"Usage: {sys.argv[0]} template_folder folder_to_compile output_folder string_folder")
         exit(0)
