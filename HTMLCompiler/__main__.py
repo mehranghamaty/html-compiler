@@ -4,7 +4,7 @@ import argparse
 from utils.cli import ArgsConfig
 from utils.translation import Translation
 from utils.compile import expand_folder
-#from utils.generate import generate_project
+from utils.generate import generate_project
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -26,7 +26,8 @@ if __name__ == "__main__":
                                help='not currently implemented')
 
     gen_parser = subparsers.add_parser('generate')
-    gen_parser.add_argument('-g', '--gen', type=str, default='.', help='generate a project folder')
+    gen_parser.add_argument('generate', help='generate a project folder')
+    gen_parser.add_argument('-g', '--generate', type=str, default='.', help='generate a project folder')
 
     args = parser.parse_args()
 
@@ -39,7 +40,7 @@ if __name__ == "__main__":
             trans = Translation(config)
             expand_folder(trans, config)
         case 'generate':
-            raise NotImplementedError
+            generate_project(args.generate)
             #generate_project(args.generate)
         case _:
             parser.print_help()
