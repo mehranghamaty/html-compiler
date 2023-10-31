@@ -12,7 +12,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 setup(
     name="HTMLCompiler",
-    version='0.0.1',
+    version='0.0.4',
     author="Mehran Nathan Ghamaty",
     author_email="mnghamaty@gmail.com",
     description="An app to compile static html pages",
@@ -20,6 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
+    python_requires='>3.10',
     install_requires=[],
     keywords=['pypi', 'cicd', 'python'],
     classifiers=[

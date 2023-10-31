@@ -1,11 +1,8 @@
-import os
-import argparse
 
-from utils.cli import parse_args, ArgsConfig
+from utils.cli import ArgsConfig
 from utils.translation import Translation
 from utils.parser import read_file_and_strip
 from utils.config import DELIM
-
 
 def expand_html(html_file: str, trans: Translation, config: ArgsConfig):
     new_contents = ""
@@ -37,9 +34,3 @@ def expand_folder(trans: Translation, config: ArgsConfig):
             with open(f"{config.output_folder}{DELIM}{file_name}", 'w') as file:
                 file.write(new_contents)
         
-
-if __name__ == "__main__":
-    config = parse_args()
-    
-    trans = Translation(config)
-    expand_folder(trans, config)
