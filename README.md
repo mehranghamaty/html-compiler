@@ -2,7 +2,8 @@
 Example shown; should be relatively straight forward.
 
 place your fragments in the html_fragments folder, place your html pages in html_pages then run the command it will replace all of the {{ fragmentname.html }} with the contents of the fragment.
-The entent being to prioritize having i18n and l10n support. Ideally making translations a zero-overhead abstraction which happens before the application runs. 
+The entent being to prioritize having i18n and l10n support. Ideally making translations a zero-overhead abstraction which happens before the application runs. Meant to be a wrapper for use with Jinja for statically
+compiled elements.
 
 ```
 pip install .
